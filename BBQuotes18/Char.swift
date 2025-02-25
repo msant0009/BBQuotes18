@@ -15,5 +15,6 @@ struct Char: Codable {
     let aliases: [String]
     let status: String
     let portrayedBy: String
+    var death: Death?// optionals set to nil by default
     
 }
