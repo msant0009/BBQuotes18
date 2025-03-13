@@ -12,8 +12,7 @@ struct Death: Codable {
     let image: URL
     let details: String
     let lastWords: String
-   
-    
+       
 }
 
 
