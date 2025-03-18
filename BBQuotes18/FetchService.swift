@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct FetchService {
-    enum FetchError: Error {
+struct FetchService { // some developers would call this FetchController
+    private enum FetchError: Error {
         case badResponse
     }
     
-    let baseURL = URL(string: "https://breaking-bad-api-six.vercel.app/api")!
+    private let baseURL = URL(string: "https://breaking-bad-api-six.vercel.app/api")!
     
     // this is the entire URL
     //https://breaking-bad-api-six.vercel.app/api/quotes/random?production=Breaking+Bad
