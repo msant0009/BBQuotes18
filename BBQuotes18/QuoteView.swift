@@ -27,17 +27,40 @@ struct QuoteView: View {
                         .clipShape(.rect(cornerRadius: 25))
                         .padding(.horizontal)
                     
-                }
+                    ZStack(alignment: .bottom){
+                        AsyncImage(url: vm.character.images[0]) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width: geo.size.width/1.1, height: geo.size.height/1.8)
+                        
+                        Text(vm.quote.character)
+                            .foregroundStyle(.white)
+                            .padding(10)
+                            .frame(maxWidth: .infinity)
+                            .background(.ultraThinMaterial)
+                        
+                            
+                    }// end zstack
+                    .frame(width: geo.size.width/1.1, height: geo.size.height/1.8)
+                    .clipShape(.rect(cornerRadius: 50))
+                    
+                        
+                }// end vstack
                 .frame(width: geo.size.width)
-                
-            }
+                    
+                }
+               
             .frame(width: geo.size.width, height: geo.size.height)
     
-        }
+        }// end geo reader
         .ignoresSafeArea()
         
-    }
-}
+    }// end body
+} // end view
 
 #Preview {
     QuoteView(show: "Breaking Bad")
