@@ -19,58 +19,74 @@ struct QuoteView: View {
                 .frame(width: geo.size.width * 2.7, height: geo.size.height * 1.2)
                 
                 VStack {
-                    Spacer(minLength: 60)// this along with min scale factor keeps long quotes from either running off of the screen or getting truncated (to a point).
-                    
-                    Text("\"\(vm.quote.quote)\"")
-                        .minimumScaleFactor(0.5)
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.white)
-                        .padding()
-                        .background(.black.opacity(0.5))
-                        .clipShape(.rect(cornerRadius: 25))
-                        .padding(.horizontal)
-                    
-                    ZStack(alignment: .bottom){
-                        AsyncImage(url: vm.character.images[0]) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                        } placeholder: {
+                    VStack{//This vstack is used to anchor the Get Random Quote button into one place regardless of screen activity
+                        Spacer(minLength: 60)// this along with min scale factor keeps long quotes from either running off of the screen or getting truncated (to a point).
+                        
+                        switch vm.status {
+                        case .notStarted:
+                            EmptyView()
+                        case .fetching:
                             ProgressView()
+                        case .success:
+                            Text("\"\(vm.quote.quote)\"")
+                                .minimumScaleFactor(0.5)
+                                .multilineTextAlignment(.center)
+                                .foregroundStyle(.white)
+                                .padding()
+                                .background(.black.opacity(0.5))
+                                .clipShape(.rect(cornerRadius: 25))
+                                .padding(.horizontal)
+                            
+                            ZStack(alignment: .bottom){
+                                AsyncImage(url: vm.character.images[0]) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(width: geo.size.width/1.1, height: geo.size.height/1.8)
+                                
+                                Text(vm.quote.character)
+                                    .foregroundStyle(.white)
+                                    .padding(10)
+                                    .frame(maxWidth: .infinity)
+                                    .background(.ultraThinMaterial)
+                                
+                                
+                            }// end zstack
+                            .frame(width: geo.size.width/1.1, height: geo.size.height/1.8)
+                            .clipShape(.rect(cornerRadius: 50))
+                        case .failed(let error):
+                            Text(error.localizedDescription)
                         }
-                        .frame(width: geo.size.width/1.1, height: geo.size.height/1.8)
-                        
-                        Text(vm.quote.character)
-                            .foregroundStyle(.white)
-                            .padding(10)
-                            .frame(maxWidth: .infinity)
-                            .background(.ultraThinMaterial)
                         
                         
-                    }// end zstack
-                    .frame(width: geo.size.width/1.1, height: geo.size.height/1.8)
-                    .clipShape(.rect(cornerRadius: 50))
-                    
-                    Spacer()
+                        
+                        Spacer()
+                        
+                    }// end button anchor
                     
                     Button {
-            
+                        Task{
+                            await vm.getData(for: show)
+                        }
                     } label: {
                         Text("Get Random Quote")
                             .font(.title)
                             .foregroundStyle(.white)
                             .padding()
-                            .background(.breakingBadGreen)
+                            .background(Color("\(show.replacingOccurrences(of: " ", with: ""))Button"))
                             .clipShape(.rect(cornerRadius: 7))
-                            .shadow(color: .breakingBadYellow, radius: 2)
+                            .shadow(color: Color("\(show.replacingOccurrences(of: " ", with: ""))Shadow"), radius: 2)
                     }// end button label
                     Spacer(minLength: 95)
                     
-                }// end vstack
+                }// end outer vstack
                 
                 .frame(width: geo.size.width, height: geo.size.height)
                     
-                }
+                }// end zstack
                
             .frame(width: geo.size.width, height: geo.size.height)
     
