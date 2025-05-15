@@ -11,19 +11,19 @@ struct ContentView: View {
     var body: some View {
         
         TabView{
-            Tab("Breaking Bad", systemImage: "tortoise"){
-                QuoteView(show: "Breaking Bad")
-                    .toolbarBackgroundVisibility(.visible, for: .tabBar)
+            Tab(Constants.bbName, systemImage: "tortoise"){
+                QuoteView(show: Constants.bbName)
+                    
             }
             
-            Tab("Better Call Saul", systemImage: "briefcase"){
-                QuoteView(show: "Better Call Saul")
-                    .toolbarBackgroundVisibility(.visible, for: .tabBar)
+            Tab(Constants.bcsName, systemImage: "briefcase"){
+                QuoteView(show: Constants.bcsName)
+                    
             }
             
-            Tab("El Camino", systemImage: "car"){ 
-                QuoteView(show: "El Camino")
-                    .toolbarBackgroundVisibility(.visible, for: .tabBar)
+            Tab(Constants.ecName, systemImage: "car"){
+                QuoteView(show: Constants.ecName)
+                    
             }
         }
         .preferredColorScheme(.dark)

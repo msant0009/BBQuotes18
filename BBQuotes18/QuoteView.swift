@@ -10,12 +10,13 @@ import SwiftUI
 struct QuoteView: View {
     let vm = ViewModel()
     let show: String
+    
     @State var showCharacterInfo: Bool = false
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                Image(show.lowercased().replacingOccurrences(of: " ", with: ""))
+                Image(show.removeCaseAndSpace())
                 .resizable()
                 .frame(width: geo.size.width * 2.7, height: geo.size.height * 1.2)
                 
@@ -82,9 +83,9 @@ struct QuoteView: View {
                             .font(.title)
                             .foregroundStyle(.white)
                             .padding()
-                            .background(Color("\(show.replacingOccurrences(of: " ", with: ""))Button"))
+                            .background(Color("\(show.removeSpaces())Button"))
                             .clipShape(.rect(cornerRadius: 7))
-                            .shadow(color: Color("\(show.replacingOccurrences(of: " ", with: ""))Shadow"), radius: 2)
+                            .shadow(color: Color("\(show.removeSpaces())Shadow"), radius: 2)
                     }// end button label
                     Spacer(minLength: 95)
                     
@@ -98,6 +99,7 @@ struct QuoteView: View {
     
         }// end geo reader
         .ignoresSafeArea()
+        .toolbarBackgroundVisibility(.visible, for: .tabBar)
         .sheet(isPresented: $showCharacterInfo) {
             CharacterView(character: vm.character, show: show)
         }
@@ -106,6 +108,6 @@ struct QuoteView: View {
 } // end view
 
 #Preview {
-    QuoteView(show: "Breaking Bad")
+    QuoteView(show: Constants.bbName)
         .preferredColorScheme(.dark)
 }
